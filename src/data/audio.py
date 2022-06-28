@@ -70,7 +70,7 @@ class Audio(Modality):
       # missing: n/a 
       #missing_data_list = Parallel(n_jobs=-1)(delayed(self.save_intervals)(interval_id, speaker,
                                                                            #filename_dict, parent)
-                                              for interval_id in tqdm(interval_ids, desc='intervals'))
+                                             #for interval_id in tqdm(interval_ids, desc='intervals'))
       #self.missing.save_intervals(missing_data_list)
 
   def save_intervals(self, interval_id, speaker, filename_dict, parent):
