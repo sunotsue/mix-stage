@@ -196,7 +196,7 @@ def preprocess(args, exp_num):
   speaker = args.speaker
   preprocess_methods = args.preprocess_methods
   audio = Audio(path2data, path2outdata, speaker, preprocess_methods)
-  audio.preprocess()
+  #audio.preprocess()
 
 if __name__ == '__main__':
   argparseNloop(preprocess)
