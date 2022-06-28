@@ -57,7 +57,7 @@ class Audio(Modality):
       interval_ids = df_speaker['interval_id'].unique()
 
       ## find path to processed files
-      parent = Path(self.path2data)/'raw'/'{}_cropped'.format(speaker)
+      parent = Path(self.path2data)#/'raw'/'{}_cropped'.format(speaker)
       filenames = os.listdir(parent)
       filenames = [filename for filename in filenames if filename.split('.')[-1] == 'wav']
       filename_dict = {filename.split('.')[0].split('_')[-1]: filename for filename in filenames}
@@ -81,7 +81,7 @@ class Audio(Modality):
       ## save processed_data
       for preprocess_method, processed_data in zip(self.preprocess_methods, processed_datas):
         if processed_data is None:
-          warnings.warn('{}.mp3 not readable.'.format(interval_id))
+          warnings.warn('{}.wav not readable.'.format(interval_id))
           return interval_id
         filename = Path(self.path2outdata)/'processed'/speaker/'{}.h5'.format(interval_id)
         key = self.add_key(self.h5_key, [preprocess_method])
