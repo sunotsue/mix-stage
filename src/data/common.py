@@ -1,17 +1,19 @@
 import os
 import sys
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import h5py
-from pathlib import Path
-import warnings
-import pandas as pd
-import numpy as np
 import pdb
+import warnings
+from pathlib import Path
 
+import h5py
+import numpy as np
+import pandas as pd
 from argsUtils import *
 from tqdm import tqdm
+
 
 class HDF5():
   def __init__(self):
@@ -103,13 +105,13 @@ class HDF5():
 
   
 class Modality(HDF5):
-  def __init__(self, path2data='../dataset/groot/data',
-               path2outdata='../dataset/groot/data',
+  def __init__(self, path2data='../5min_wav',
+               path2outdata='../preprocessed/5min',
                speaker='all',
                preprocess_methods=['log_mel']):
     super(Modality, self).__init__()
     self.path2data = path2data
-    self.df = pd.read_csv(Path(self.path2data)/'cmu_intervals_df.csv', dtype=object)
+    self.df = pd.read_csv(Path(self.path2data)/'egocom_cmu_intervals_df.csv', dtype=object)
     self.df.loc[:, 'delta_time'] = self.df['delta_time'].apply(float)
     self.df.loc[:, 'interval_id'] = self.df['interval_id'].apply(str)
     
