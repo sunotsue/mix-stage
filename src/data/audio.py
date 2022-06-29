@@ -61,7 +61,7 @@ class Audio(Modality):
       
       # day_1__con_1__part1_person1_0.09_7.64.wav 
       
-      parent = Path(self.path2data)/'{}+"_"+{}+"_"+{}+".wav"'.format(speaker, start_time, end_time)
+      parent = Path(self.path2data)/"{}+'_'+{}+'_'+{}+'.wav'".format(speaker, start_time, end_time)
       filenames = os.listdir(parent)
       filenames = [filename for filename in filenames]
       print('FILENAMES',filenames)
