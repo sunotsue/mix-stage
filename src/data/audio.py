@@ -177,7 +177,7 @@ def preprocess(args, exp_num):
   path2outdata = args.path2outdata #'../dataset/groot/data/processed/'
   speaker = args.speaker
   preprocess_methods = args.preprocess_methods
-  audio = Audio(path2data, path2outdata, speaker, preprocess_methods)
+  audio = Audio(path2data, path2outdata, preprocess_methods)
   audio.preprocess()
 
 if __name__ == '__main__':
