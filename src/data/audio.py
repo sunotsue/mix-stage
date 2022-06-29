@@ -53,6 +53,7 @@ class Audio(Modality):
       print('INTERVAL IDS',interval_id)
 
       ## find path to processed files
+      ## for each conv_speaker 
       parent = Path(self.path2data)
       filenames = os.listdir(parent)
       filenames = [filename for filename in filenames]
