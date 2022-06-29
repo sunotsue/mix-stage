@@ -31,7 +31,6 @@ from common import MissingData, Modality
 class Audio(Modality):
   def __init__(self, path2data='../5min_wav_trimmed',
                path2outdata='../preprocessed/5min',
-               speaker='all',
                preprocess_methods=['log_mel_512']):
     super(Audio, self).__init__(path2data=path2data)
     self.path2data = path2data
@@ -46,10 +45,7 @@ class Audio(Modality):
     #self.missing = MissingData(self.path2data)
     
   def preprocess(self):
-    if self.speaker[0] != 'all':
-      speakers = self.speaker
-    else:
-      speakers = self.speakers
+    speakers = self.speakers
     
     for speaker in tqdm(speakers, desc='speakers', leave=False):
       tqdm.write('Speaker: {}'.format(speaker))

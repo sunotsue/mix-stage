@@ -105,9 +105,8 @@ class HDF5():
 
   
 class Modality(HDF5):
-  def __init__(self, path2data='../5min_wav',
+  def __init__(self, path2data='../5min_wav_trimmed',
                path2outdata='../preprocessed/5min',
-               speaker='all',
                preprocess_methods=['log_mel']):
     super(Modality, self).__init__()
     self.path2data = path2data
@@ -123,10 +122,7 @@ class Modality(HDF5):
     raise NotImplementedError
 
   def del_keys(self, h5_key):
-    if self.speaker != 'all':
-      speakers = [self.speaker]
-    else:
-      speakers = self.speakers
+    speakers = self.speakers
 
     for speaker in tqdm(speakers, desc='speakers', leave=False):
       tqdm.write('Speaker: {}'.format(speaker))
@@ -153,38 +149,16 @@ class Modality(HDF5):
   @property
   def speakers(self):
     return [
-      'oliver', #TV sitting high_freq
-      'jon', #TV sitting 
-      'conan', #TV standing high_freq
-      'rock', #lec sitting
-      'chemistry', #lec sitting
-      'ellen', #TV standing
-      'almaram', #eval sitting
-      'angelica', #eval sitting
-      'seth', #TV sitting low frequency
-      'shelly', #TV sitting
-      'colbert', #TV standing high_freq
-      'corden', #TV standing 
-      'fallon', #TV standing
-      'huckabee', #TV standing
-      'maher', #TV standing
-      'lec_cosmic', #lec sitting
-      'lec_evol', #lec sitting
-      'lec_hist', #lec sitting
-      'lec_law', #lec sitting
-      'minhaj', #TV standing
-      'ytch_charisma', #yt sitting
-      'ytch_dating', #yt sitting
-      'ytch_prof', #yt sitting
-      'bee', #TV standing
-      'noah' #TV sitting
+      'speaker_1',
+      'speaker_2',
+      'speaker_3'
     ]
 
   @property
   def inv_speakers(self):
     dc = {}
     for i, speaker in enumerate(self.speakers):
-      dc[speaker] = i
+      dc[speaker] = i+1
     return dc
   
   def speaker_id(self, speaker):
