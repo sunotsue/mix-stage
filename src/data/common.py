@@ -130,7 +130,7 @@ class Modality(HDF5):
       #df_speaker = self.get_df_subset(speaker)
       #interval_ids = df_speaker['interval_id'].unique()
       for preprocess_method in self.preprocess_methods:
-        for speaker, interval_id in tqdm((speakers, interval_ids), desc='interval_ids'):
+        for speaker, interval_id in tqdm(zip(list(speakers), list(interval_ids)), desc='interval_ids'):
           filename = Path(self.path2outdata)/speaker/'{}.h5'.format(interval_id)
           key = self.add_key(h5_key[0], [preprocess_method])
 
