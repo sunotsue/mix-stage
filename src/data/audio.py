@@ -25,7 +25,7 @@ from argsUtils import *
 from joblib import Parallel, delayed
 from tqdm import tqdm
 
-from common import MissingData, Modality
+from common import Modality
 
 
 class Audio(Modality):
@@ -40,12 +40,16 @@ class Audio(Modality):
     
     self.path2outdata = path2outdata
     self.interval_id = self.df['interval_id'].apply(str)
-    self.speakers = self.df['video_fn'].apply(str) + "_speaker_" + self.df['speaker'].apply(str)
+    self.speakers = self.df['video_fn'].apply(str) + "_person" + self.df['speaker'].apply(str)
+    self.start_time = self.df['start_time'].apply(str)
+    self.end_time = self.df['end_time'].apply(str)
     self.preprocess_methods = preprocess_methods
     
   def preprocess(self):
     speakers = self.speakers
     interval_ids = self.interval_id 
+    start_time = self.start_time
+    end_time = self.end_time
     
     for speaker, interval_id in tqdm((speakers, interval_ids), desc='speakers', leave=False):
       tqdm.write('Speaker: {}'.format(speaker))
@@ -54,7 +58,10 @@ class Audio(Modality):
 
       ## find path to processed files
       ## for each conv_speaker 
-      parent = Path(self.path2data)
+      
+      # day_1__con_1__part1_person1_0.09_7.64.wav 
+      
+      parent = Path(self.path2data)/'{}+"_"+{}+"_"+{}+".wav"'.format(speaker, start_time, end_time)
       filenames = os.listdir(parent)
       filenames = [filename for filename in filenames]
       print('FILENAMES',filenames)
@@ -178,7 +185,6 @@ class Audio(Modality):
 def preprocess(args, exp_num):
   path2data = args.path2data #'../dataset/groot/speech2gesture_data/'
   path2outdata = args.path2outdata #'../dataset/groot/data/processed/'
-  speaker = args.speaker
   preprocess_methods = args.preprocess_methods
   audio = Audio(path2data, path2outdata, preprocess_methods)
   audio.preprocess()

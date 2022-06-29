@@ -115,7 +115,7 @@ class Modality(HDF5):
     #self.df.loc[:, 'interval_id'] = self.df['interval_id'].apply(str)
     self.path2outdata = path2outdata
     self.interval_id = self.df['interval_id'].apply(str)
-    self.speakers = self.df['video_fn'].apply(str) + "_speaker_" + self.df['speaker'].apply(str)
+    self.speakers = self.df['video_fn'].apply(str) + "_person" + self.df['speaker'].apply(str)
     self.preprocess_methods = preprocess_methods
 
   def preprocess(self):
