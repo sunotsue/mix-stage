@@ -40,10 +40,10 @@ class Audio(Modality):
     self.df.loc[:, 'interval_id'] = self.df['interval_id'].apply(str)
     
     self.path2outdata = path2outdata
-    self.speaker = speaker
+    #self.speaker = speaker
     self.preprocess_methods = preprocess_methods
 
-    self.missing = MissingData(self.path2data)
+    #self.missing = MissingData(self.path2data)
     
   def preprocess(self):
     if self.speaker[0] != 'all':
