@@ -125,7 +125,7 @@ class Modality(HDF5):
     speakers = self.speakers
     interval_ids = self.interval_id 
 
-    for speaker, interval_id in tqdm((speakers, interval_ids), desc='speakers', leave=False):
+    for speaker, interval_id in tqdm(zip(list(speakers), list(interval_ids)), desc='speakers', leave=False):
       tqdm.write('Speaker: {}'.format(speaker))
       #df_speaker = self.get_df_subset(speaker)
       #interval_ids = df_speaker['interval_id'].unique()

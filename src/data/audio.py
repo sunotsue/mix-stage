@@ -51,7 +51,7 @@ class Audio(Modality):
     start_time = self.start_time
     end_time = self.end_time
     
-    for speaker, interval_id in tqdm((speakers, interval_ids), desc='speakers', leave=False):
+    for speaker, interval_id in tqdm(zip(list(speakers), list(interval_ids)), desc='speakers', leave=False):
       tqdm.write('Speaker: {}'.format(speaker))
       print('DF SPEAKER', speaker)
       print('INTERVAL IDS',interval_id)
