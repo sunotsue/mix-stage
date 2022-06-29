@@ -65,10 +65,10 @@ class Audio(Modality):
       
       parent = Path(self.path2data)/"{}_{}_{}.wav".format(speaker, start_time, end_time)
       print('PATH',parent)
-      filenames = os.listdir(parent)
-      filenames = [filename for filename in filenames]
-      print('FILENAMES',filenames)
-      filename_dict = {filename.rsplit('_',2)[0]: filename for filename in filenames} # key: conv_person, value: filename 
+      #filenames = os.listdir(parent)
+      #filenames = [filename for filename in filenames]
+      print('FILENAMES',parent)
+      filename_dict = {parent.rsplit('_',2)[0]: parent} # key: conv_person, value: filename 
       print('FILE NAME DICT',filename_dict)
 
   def save_intervals(self, interval_id, speaker, filename_dict, parent):
