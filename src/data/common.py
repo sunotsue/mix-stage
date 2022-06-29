@@ -140,33 +140,6 @@ class Modality(HDF5):
           if not key_flag:
             break ## ignore files of a speaker if the first file does not have ``key``
           self.h5_close(h5)
-  """ 
-  def get_df_subset(self, column, value):
-    if isinstance(value, list):
-      return self.df[self.df[column].isin(value)]
-    else:
-      return self.df[self.df[column] == value]
-  """
-  
-  """
-  @property
-  def speakers(self):
-    return [
-      'speaker_1',
-      'speaker_2',
-      'speaker_3'
-    ]
-
-  @property
-  def inv_speakers(self):
-    dc = {}
-    for i, speaker in enumerate(self.speakers):
-      dc[speaker] = i+1
-    return dc
-  
-  def speaker_id(self, speaker):
-    return self.inv_speakers[speaker]
-  """
 
 class MissingData(HDF5):
   def __init__(self, path2data):

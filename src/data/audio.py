@@ -36,30 +36,28 @@ class Audio(Modality):
     self.path2data = path2data
     self.df = pd.read_csv(Path(self.path2data)/'egocom_cmu_intervals_df.csv', dtype=object)
     self.df.loc[:, 'delta_time'] = self.df['delta_time'].apply(float)
-    self.df.loc[:, 'interval_id'] = self.df['interval_id'].apply(str)
+    #self.df.loc[:, 'interval_id'] = self.df['interval_id'].apply(str)
     
     self.path2outdata = path2outdata
-    #self.speaker = speaker
+    self.interval_id = self.df['interval_id'].apply(str)
+    self.speakers = self.df['video_fn'].apply(str) + "_speaker_" + self.df['speaker'].apply(str)
     self.preprocess_methods = preprocess_methods
-
-    #self.missing = MissingData(self.path2data)
     
   def preprocess(self):
     speakers = self.speakers
+    interval_ids = self.interval_id 
     
-    for speaker in tqdm(speakers, desc='speakers', leave=False):
+    for speaker, interval_id in tqdm((speakers, interval_ids), desc='speakers', leave=False):
       tqdm.write('Speaker: {}'.format(speaker))
-      df_speaker = self.get_df_subset('speaker', speaker)
-      print('DF SPEAKER',df_speaker)
-      interval_ids = df_speaker['interval_id'].unique()
-      print('INTERVAL IDS',interval_ids)
+      print('DF SPEAKER', speaker)
+      print('INTERVAL IDS',interval_id)
 
       ## find path to processed files
       parent = Path(self.path2data)
       filenames = os.listdir(parent)
       filenames = [filename for filename in filenames]
       print('FILENAMES',filenames)
-      filename_dict = {filename.rsplit('_',2)[0]: filename for filename in filenames} # key: conversation, value: filename 
+      filename_dict = {filename.rsplit('_',2)[0]: filename for filename in filenames} # key: conv_person, value: filename 
       print('FILE NAME DICT',filename_dict)
 
   def save_intervals(self, interval_id, speaker, filename_dict, parent):
