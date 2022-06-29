@@ -112,10 +112,13 @@ class Modality(HDF5):
     self.path2data = path2data
     self.df = pd.read_csv(Path(self.path2data)/'egocom_cmu_intervals_df.csv', dtype=object)
     self.df.loc[:, 'delta_time'] = self.df['delta_time'].apply(float)
+    print('DELTA TIME LOC',self.df.loc[:, 'delta_time'])
     self.df.loc[:, 'interval_id'] = self.df['interval_id'].apply(str)
+    print('INTERVAL ID LOC',self.df.loc[:, 'interval_id'])
     
     self.path2outdata = path2outdata
-    #self.speaker = speaker
+    self.speaker = self.df['video_fn'].apply(str) + "_speaker_" + self.df['speaker'].apply(str)
+    print('SPEAKER',self.speaker)
     self.preprocess_methods = preprocess_methods
 
   def preprocess(self):
