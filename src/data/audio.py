@@ -60,7 +60,7 @@ class Audio(Modality):
       parent = Path(self.path2data)
       filenames = os.listdir(parent)
       filenames = [filename for filename in filenames]
-      filename_dict = {filename.resplit('_',3)[0]: filename for filename in filenames} # key: conversation, value: filename 
+      filename_dict = {filename.rsplit('_',3)[0]: filename for filename in filenames} # key: conversation, value: filename 
 
   def save_intervals(self, interval_id, speaker, filename_dict, parent):
     if interval_id in filename_dict:
