@@ -112,13 +112,10 @@ class Modality(HDF5):
     self.path2data = path2data
     self.df = pd.read_csv(Path(self.path2data)/'egocom_cmu_intervals_df.csv', dtype=object)
     self.df.loc[:, 'delta_time'] = self.df['delta_time'].apply(float)
-    print('DELTA TIME LOC',self.df.loc[:, 'delta_time'])
-    self.df.loc[:, 'interval_id'] = self.df['interval_id'].apply(str)
-    print('INTERVAL ID LOC',self.df.loc[:, 'interval_id'])
-    
+    #self.df.loc[:, 'interval_id'] = self.df['interval_id'].apply(str)
     self.path2outdata = path2outdata
-    self.speaker = self.df['video_fn'].apply(str) + "_speaker_" + self.df['speaker'].apply(str)
-    print('SPEAKER',self.speaker)
+    self.interval_id = self.df['interval_id'].apply(str)
+    self.speakers = self.df['video_fn'].apply(str) + "_speaker_" + self.df['speaker'].apply(str)
     self.preprocess_methods = preprocess_methods
 
   def preprocess(self):
@@ -126,14 +123,15 @@ class Modality(HDF5):
 
   def del_keys(self, h5_key):
     speakers = self.speakers
+    interval_ids = self.interval_id 
 
-    for speaker in tqdm(speakers, desc='speakers', leave=False):
+    for speaker, interval_id in tqdm((speakers, interval_ids), desc='speakers', leave=False):
       tqdm.write('Speaker: {}'.format(speaker))
-      df_speaker = self.get_df_subset(speaker)
-      interval_ids = df_speaker['interval_id'].unique()
+      #df_speaker = self.get_df_subset(speaker)
+      #interval_ids = df_speaker['interval_id'].unique()
       for preprocess_method in self.preprocess_methods:
-        for interval_id in tqdm(interval_ids, desc='intervals'):
-          filename = Path(self.path2outdata)/'processed'/speaker/'{}.h5'.format(interval_id)
+        for speaker, interval_id in tqdm((speakers, interval_ids), desc='interval_ids'):
+          filename = Path(self.path2outdata)/speaker/'{}.h5'.format(interval_id)
           key = self.add_key(h5_key[0], [preprocess_method])
 
           ## delete dataset
@@ -142,13 +140,15 @@ class Modality(HDF5):
           if not key_flag:
             break ## ignore files of a speaker if the first file does not have ``key``
           self.h5_close(h5)
-
+  """ 
   def get_df_subset(self, column, value):
     if isinstance(value, list):
       return self.df[self.df[column].isin(value)]
     else:
       return self.df[self.df[column] == value]
+  """
   
+  """
   @property
   def speakers(self):
     return [
@@ -166,6 +166,7 @@ class Modality(HDF5):
   
   def speaker_id(self, speaker):
     return self.inv_speakers[speaker]
+  """
 
 class MissingData(HDF5):
   def __init__(self, path2data):
@@ -226,8 +227,7 @@ modalities: modality to delete.
             eg: 'audio', 'pose' etc.
 '''
 def delete_keys(args, exp_num):
-  modality = Modality(args.path2data, args.path2outdata,
-                      args.speaker, args.preprocess_methods)
+  modality = Modality(args.path2data, args.path2outdata, args.preprocess_methods)
   modality.del_keys(args.modalities)
 
 if __name__ == '__main__':
