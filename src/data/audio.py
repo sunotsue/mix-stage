@@ -29,7 +29,7 @@ from common import MissingData, Modality
 
 
 class Audio(Modality):
-  def __init__(self, path2data='../5min_wav',
+  def __init__(self, path2data='../5min_wav_trimmed',
                path2outdata='../preprocessed/5min',
                speaker='all',
                preprocess_methods=['log_mel_512']):
@@ -43,7 +43,7 @@ class Audio(Modality):
     self.speaker = speaker
     self.preprocess_methods = preprocess_methods
 
-    #self.missing = MissingData(self.path2data)
+    self.missing = MissingData(self.path2data)
     
   def preprocess(self):
     if self.speaker[0] != 'all':
@@ -57,21 +57,10 @@ class Audio(Modality):
       interval_ids = df_speaker['interval_id'].unique()
 
       ## find path to processed files
-      parent = Path(self.path2data)#/'raw'/'{}_cropped'.format(speaker)
+      parent = Path(self.path2data)
       filenames = os.listdir(parent)
-      filenames = [filename for filename in filenames if filename.split('.')[-1] == 'wav']
-      filename_dict = {filename.split('.')[0].split('_')[-1]: filename for filename in filenames}
-      #self.save_intervals(interval_ids[0], speaker, filename_dict, parent)
-      #pdb.set_trace()
-      # missing_data_list = []
-      # for interval_id in tqdm(interval_ids, desc='intervals'):
-      #   missing_data_list.append(self.save_intervals(interval_id, speaker, filename_dict, parent))
-      # pdb.set_trace()
-      # missing: n/a 
-      #missing_data_list = Parallel(n_jobs=-1)(delayed(self.save_intervals)(interval_id, speaker,
-                                                                           #filename_dict, parent)
-                                             #for interval_id in tqdm(interval_ids, desc='intervals'))
-      #self.missing.save_intervals(missing_data_list)
+      filenames = [filename for filename in filenames]
+      filename_dict = {filename.resplit('_',3)[0]: filename for filename in filenames} # key: conversation, value: filename 
 
   def save_intervals(self, interval_id, speaker, filename_dict, parent):
     if interval_id in filename_dict:
@@ -80,9 +69,6 @@ class Audio(Modality):
 
       ## save processed_data
       for preprocess_method, processed_data in zip(self.preprocess_methods, processed_datas):
-        if processed_data is None:
-          warnings.warn('{}.wav not readable.'.format(interval_id))
-          return interval_id
         filename = Path(self.path2outdata)/'processed'/speaker/'{}.h5'.format(interval_id)
         key = self.add_key(self.h5_key, [preprocess_method])
         self.append(filename, key, processed_data)
@@ -196,7 +182,7 @@ def preprocess(args, exp_num):
   speaker = args.speaker
   preprocess_methods = args.preprocess_methods
   audio = Audio(path2data, path2outdata, speaker, preprocess_methods)
-  #audio.preprocess()
+  audio.preprocess()
 
 if __name__ == '__main__':
   argparseNloop(preprocess)
