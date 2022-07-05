@@ -29,7 +29,7 @@ from common import MissingData, Modality
 
 
 class Audio(Modality):
-  def __init__(self, path2data='projects/dataset_processed/pats-plus-copied/pats-plus/'
+  def __init__(self, path2data='projects/dataset_processed/pats-plus-copied/pats-plus/',
                path2outdata='projects/dataset_processed/pats-plus-copied/pats-plus/',
                speaker='all',
                preprocess_methods=['log_mel_512']):
