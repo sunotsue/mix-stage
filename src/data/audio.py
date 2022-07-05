@@ -9,25 +9,28 @@ python data/audio.py -path2data ../dataset/groot/data -path2outdata ../dataset/g
 
 import os
 import sys
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+import pdb
+import warnings
 from pathlib import Path
+
+import librosa
 import numpy as np
 import pandas as pd
-import pdb
-from tqdm import tqdm
-import librosa
-import warnings
-from joblib import Parallel, delayed
 import webrtcvad
-
 from argsUtils import *
-from common import Modality, MissingData
+from joblib import Parallel, delayed
+from tqdm import tqdm
+
+from common import MissingData, Modality
+
 
 class Audio(Modality):
-  def __init__(self, path2data='../dataset/groot/data',
-               path2outdata='../dataset/groot/data',
+  def __init__(self, path2data='projects/dataset_processed/pats-plus-copied/pats-plus/'
+               path2outdata='projects/dataset_processed/pats-plus-copied/pats-plus/',
                speaker='all',
                preprocess_methods=['log_mel_512']):
     super(Audio, self).__init__(path2data=path2data)

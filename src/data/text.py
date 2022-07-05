@@ -8,33 +8,33 @@ python data/text.py -path2data ../dataset/groot/data -path2outdata ../dataset/gr
 
 import os
 import sys
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from pathlib import Path
-import numpy as np
-import pandas as pd
 import pdb
-from tqdm import tqdm
-import librosa
 import warnings
-from joblib import Parallel, delayed
-import h5py
-
-from argsUtils import *
-from pycasper.pathUtils import replace_Nth_parent
-from common import Modality, MissingData, HDF5
+from functools import partial
+from pathlib import Path
 
 import gensim
+import h5py
+import librosa
 import nltk
-import warnings
-
+import numpy as np
+import pandas as pd
 import torch
 import torch.nn as nn
-from pytorch_pretrained_bert import BertTokenizer, BertModel, BertConfig
+from argsUtils import *
+from joblib import Parallel, delayed
+from pycasper.pathUtils import replace_Nth_parent
+from pytorch_pretrained_bert import BertConfig, BertModel, BertTokenizer
 from pytorch_pretrained_bert.modeling import BertPreTrainedModel
 from torch.utils.data._utils.collate import default_collate
-from functools import partial
+from tqdm import tqdm
+
+from common import HDF5, MissingData, Modality
+
 
 def pad(datasets, key, dim):
   sizes = []
@@ -70,8 +70,8 @@ def collate_fn_pad(batch, pad_key='text/meta', dim=0):
     return default_collate(batch)
 
 class Text(Modality):
-  def __init__(self, path2data='../dataset/groot/data',
-               path2outdata='../dataset/groot/data',
+  def __init__(self, path2data='projects/dataset_processed/pats-plus-copied/pats-plus/',
+               path2outdata='projects/dataset_processed/pats-plus-copied/pats-plus/',
                speaker='all',
                preprocess_methods=['w2v'],
                text_aligned=0):

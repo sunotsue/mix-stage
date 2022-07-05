@@ -1,17 +1,19 @@
 import os
 import sys
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import h5py
-from pathlib import Path
-import warnings
-import pandas as pd
-import numpy as np
 import pdb
+import warnings
+from pathlib import Path
 
+import h5py
+import numpy as np
+import pandas as pd
 from argsUtils import *
 from tqdm import tqdm
+
 
 class HDF5():
   def __init__(self):
@@ -103,8 +105,8 @@ class HDF5():
 
   
 class Modality(HDF5):
-  def __init__(self, path2data='../dataset/groot/data',
-               path2outdata='../dataset/groot/data',
+  def __init__(self, path2data='projects/dataset_processed/pats-plus-copied/pats-plus/',
+               path2outdata='projects/dataset_processed/pats-plus-copied/pats-plus/',
                speaker='all',
                preprocess_methods=['log_mel']):
     super(Modality, self).__init__()
