@@ -152,33 +152,10 @@ class Modality(HDF5):
   
   @property
   def speakers(self):
-    return [
-      'oliver', #TV sitting high_freq
-      'jon', #TV sitting 
-      'conan', #TV standing high_freq
-      'rock', #lec sitting
-      'chemistry', #lec sitting
-      'ellen', #TV standing
-      'almaram', #eval sitting
-      'angelica', #eval sitting
-      'seth', #TV sitting low frequency
-      'shelly', #TV sitting
-      'colbert', #TV standing high_freq
-      'corden', #TV standing 
-      'fallon', #TV standing
-      'huckabee', #TV standing
-      'maher', #TV standing
-      'lec_cosmic', #lec sitting
-      'lec_evol', #lec sitting
-      'lec_hist', #lec sitting
-      'lec_law', #lec sitting
-      'minhaj', #TV standing
-      'ytch_charisma', #yt sitting
-      'ytch_dating', #yt sitting
-      'ytch_prof', #yt sitting
-      'bee', #TV standing
-      'noah' #TV sitting
-    ]
+    os.chdir('projects/dataset_processed/pats-plus-copied/pats-plus/processed')
+    out = next(os.walk('.'))[1] #put folder names in to a list 
+    os.chdir('/') #very top
+    return out 
 
   @property
   def inv_speakers(self):

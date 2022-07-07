@@ -1,31 +1,34 @@
 import os
 import sys
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from tqdm import tqdm
-from pathlib import Path
-import time
-import pdb
-from joblib import Parallel, delayed
-import numpy as np
-from nltk.corpus import stopwords
-
-from skeleton import *
-from audio import *
-from text import *
-from common import *
-from argsUtils import *
 import bisect
-
-import torch
-from torch.utils.data import Dataset, DataLoader, ConcatDataset, Sampler
-from torch.utils.data._utils.collate import default_collate
-from transformers import BertTokenizer
 import logging
+import pdb
+import time
+from pathlib import Path
+
+import numpy as np
+import torch
+from argsUtils import *
+from joblib import Parallel, delayed
+from nltk.corpus import stopwords
+from torch.utils.data import ConcatDataset, DataLoader, Dataset, Sampler
+from torch.utils.data._utils.collate import default_collate
+from tqdm import tqdm
+from transformers import BertTokenizer
+
+from audio import *
+from common import *
+from skeleton import *
+from text import *
+
 logging.getLogger('transformers').setLevel(logging.CRITICAL)
 
 from functools import partial
+
 
 class DummyData(Dataset):
   def __init__(self, variable_list=['pose', 'audio'], length=1000, random=False, pause=False):
@@ -131,7 +134,8 @@ class Data(Modality):
     
     ## Load the master table
     self.df = pd.read_csv((Path(self.path2data)/'cmu_intervals_df.csv').as_posix())
-    self.df = self.df.append(pd.read_csv((Path(self.path2data)/'cmu_intervals_df_transforms.csv').as_posix())) ## file with evil twins
+    ## ignore transforms for now?
+    #self.df = self.df.append(pd.read_csv((Path(self.path2data)/'cmu_intervals_df_transforms.csv').as_posix())) ## file with evil twins
     self.df.loc[:, 'interval_id'] = self.df['interval_id'].apply(str)
 
     ## Check for missing_data
